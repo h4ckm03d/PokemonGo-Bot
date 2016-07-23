@@ -1,4 +1,4 @@
-[![Deploy](https://www.herokucdn.com/deploy/button.png)](https://dashboard.heroku.com/new?button-url=https://github.com/h4ckm03d/PokemonGo-Bot/tree/upidev&template=https://github.com//h4ckm03d/PokemonGo-Bot/tree/upidev)
+[![Deploy](https://www.herokucdn.com/deploy/button.png)](https://dashboard.heroku.com/new?button-url=https://github.com/h4ckm03d/PokemonGo-Bot/tree/upidev&template=https://github.com/h4ckm03d/PokemonGo-Bot/tree/upidev)
 
 # PokemonGo-Bot
 A python script for __catching pokemons__ and __spin pokestops__ on PokemonGo.
