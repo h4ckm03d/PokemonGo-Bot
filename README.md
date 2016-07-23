@@ -1,12 +1,4 @@
-<p align="center">
-  <a href="">
-    <img alt="Logo" src="https://www.brooklinelibrary.org/wp-content/uploads/2016/07/2000px-Pok%C3%A9_Ball.svg_-1.png" width="100">
-  </a>
-</p>
-
-<p align="center">
-  <a href="https://pokemongo-bot.herokuapp.com/"><img alt="Slack" src="https://pokemongo-bot.herokuapp.com/badge.svg"></a>
-</p>
+[![Deploy](https://www.herokucdn.com/deploy/button.png)](https://dashboard.heroku.com/new?button-url=https://github.com/h4ckm03d/PokemonGo-Bot/tree/develop&template=https://github.com//h4ckm03d/PokemonGo-Bot/tree/upidev)
 
 # PokemonGo-Bot
 A python script for __catching pokemons__ and __spin pokestops__ on PokemonGo.

@@ -1,0 +1,27 @@
+{
+  "name": "PokemonGo Bot",
+  "description": "Live visualization of all the Pokémon (with option to show gyms and pokéstops) in an area on Pokémon Go.",
+  "repository": "https://github.com/h4ckm03d/PokemonGo-Bot",
+  "keywords": ["pokemon", "pokemon go"],
+  "env": {
+    "AUTH_SERVICE": {
+      "description": "Authentication service to use. (ptc or google)"
+    },
+    "USERNAME": {
+      "description": "Your username to login to the specified authentication service."
+    },
+    "PASSWORD": {
+      "description": "Your password to login to the specified authentication service."
+    },
+    "LOCATION": {
+      "description": "Location on which the map should be centered. This can be an address, co-ordinates or anything that Google Maps accepts."
+    },
+    "GMAPS_KEY": {
+      "description": "A Google Maps API key for this application."
+    },
+    "EXTRA_ARGS": {
+      "description": "Any extra arguments that you want to pass to pokecli.py.",
+      "required": false
+    }
+  }
+}
