@@ -112,7 +112,7 @@ class PokemonCatchWorker(object):
                                     print_red(
                                         '[x] Oh no! {} vanished! :('.format(pokemon_name))
                                 if status is 1:
-                                    if cp < self.config.cp or pokemon_potential > self.config.pokemon_potential:
+                                    if cp < self.config.cp or pokemon_potential < self.config.pokemon_potential:
                                         print_green('[x] Captured {}! [CP {}] [IV {}] - exchanging for candy'.format(
                                             pokemon_name, cp, pokemon_potential))
                                         id_list2 = self.count_pokemon_inventory()
