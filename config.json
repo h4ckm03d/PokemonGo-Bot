@@ -1,0 +1,10 @@
+{
+    "gmapkey": "AIzaSyAwlCwtetUjkqr9K4tzduGPUAfO0ubMAeA",
+    "max_steps": 50,
+    "mode": "all",
+    "walk": 4.16,
+    "debug": false,
+    "test": false,
+    "distance_unit": "km",
+    "item_filter": ["101","102","103","201"]
+}

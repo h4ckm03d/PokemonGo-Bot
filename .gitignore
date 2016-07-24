@@ -94,8 +94,11 @@ ENV/
 # Rope project settings
 .ropeproject
 
+# PyCharm IDE settings
+.idea/
+
 # Personal load details
-config.json
+#config.json
 src/
 info.json
 inventory.json
@@ -103,15 +106,11 @@ pokedex.json
 web/catchable.json
 web/catchable-*.json
 web/location-*.json
+web/inventory-*.json
 web/location.json
 web/userdata.js
 data/last-location*.json
 data/catch-ignore.yml
-
-# ignore Pycharm config
-.idea
-
-# personal docker-compose
-docker-compose.yml
+#release_config.json
 web/userdata.js
 location.json

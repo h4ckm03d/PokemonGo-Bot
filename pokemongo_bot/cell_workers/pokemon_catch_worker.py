@@ -45,11 +45,11 @@ class PokemonCatchWorker(object):
                                     'individual_attack', 'individual_defense', 'individual_stamina']
                                 for individual_stat in iv_stats:
                                     try:
-                                        total_IV += pokemon[
-                                            'pokemon_data'][individual_stat]
+                                        total_IV += pokemon['pokemon_data'][individual_stat]
                                     except:
+                                        pokemon['pokemon_data'][individual_stat] = 0
                                         continue
-                                print total_IV
+
                                 pokemon_potential = round((total_IV / 45.0), 2)
                                 pokemon_num = int(pokemon['pokemon_data'][
                                                   'pokemon_id']) - 1
@@ -57,6 +57,13 @@ class PokemonCatchWorker(object):
                                     int(pokemon_num)]['Name']
                                 print_yellow('[#] A Wild {} appeared! [CP {}] [Potential {}]'.format(
                                     pokemon_name, cp, pokemon_potential))
+
+                                print('[#] IV [Stamina/Attack/Defense] = [{}/{}/{}]'.format(
+                                    pokemon['pokemon_data']['individual_stamina'],
+                                    pokemon['pokemon_data']['individual_attack'],
+                                    pokemon['pokemon_data']['individual_defense']
+                                ))
+                                pokemon['pokemon_data']['name'] = pokemon_name
                                 # Simulate app
                                 sleep(3)
 
@@ -68,13 +75,19 @@ class PokemonCatchWorker(object):
                                 # print 'use Poke Ball'
                                 pokeball = 1
 
-                            if cp > 300 and balls_stock[2] > 0:
-                                # print 'use Great Ball'
-                                pokeball = 2
+                            if balls_stock[2] > 0:
+                                if pokeball is 0 and cp <= 300 and balls_stock[2] < 10:
+                                    print('[-] Great Ball stock is low... saving for pokemon with cp greater than 300')
+                                elif cp > 300 or pokeball is 0:
+                                    #print 'use Great Ball'
+                                    pokeball = 2
 
-                            if cp > 700 and balls_stock[3] > 0:
-                                # print 'use Utra Ball'
-                                pokeball = 3
+                            if balls_stock[3] > 0:
+                                if pokeball is 0 and cp <= 700 and balls_stock[3] < 10:
+                                    print('[-] Ultra Ball stock is low... saving for pokemon with cp greater than 700')
+                                elif cp > 700 or pokeball is 0:
+                                    #print 'use Utra Ball'
+                                    pokeball = 3
 
                             if pokeball is 0:
                                 print_red(
@@ -87,6 +100,11 @@ class PokemonCatchWorker(object):
                                 self.item_list[str(pokeball)]))
 
                             balls_stock[pokeball] = balls_stock[pokeball] - 1
+
+                            print('[#] {} {}s remaining'.format(
+                                balls_stock[pokeball],
+                                self.item_list[str(pokeball)]))
+
                             id_list1 = self.count_pokemon_inventory()
                             self.api.catch_pokemon(encounter_id=encounter_id,
                                                    pokeball=pokeball,
@@ -112,9 +130,14 @@ class PokemonCatchWorker(object):
                                     print_red(
                                         '[x] Oh no! {} vanished! :('.format(pokemon_name))
                                 if status is 1:
-                                    if cp < self.config.cp or pokemon_potential < self.config.pokemon_potential:
-                                        print_green('[x] Captured {}! [CP {}] [IV {}] - exchanging for candy'.format(
-                                            pokemon_name, cp, pokemon_potential))
+                                    print_green(
+                                        '[x] Captured {}! [CP {}] [IV {}] - Checking Release Config'.format(
+                                            pokemon_name,
+                                            cp,
+                                            pokemon_potential
+                                        )
+                                    )
+                                    if self.should_release_pokemon(pokemon_name, cp, pokemon_potential, response_dict):
                                         id_list2 = self.count_pokemon_inventory()
                                         # Transfering Pokemon
                                         pokemon_to_transfer = list(
@@ -128,7 +151,7 @@ class PokemonCatchWorker(object):
                                             '[#] {} has been exchanged for candy!'.format(pokemon_name))
                                     else:
                                         print_green(
-                                            '[x] Captured {}! [CP {}]'.format(pokemon_name, cp))
+                                        '[x] Captured {}! [CP {}]'.format(pokemon_name, cp))
                             break
         time.sleep(5)
 
@@ -190,3 +213,52 @@ class PokemonCatchWorker(object):
                     id_list.append(pokemon['id'])
 
         return id_list
+
+    def should_release_pokemon(self, pokemon_name, cp, iv, response_dict):
+        release_config = self._get_release_config_for(pokemon_name)
+        cp_iv_logic = release_config.get('cp_iv_logic')
+        if not cp_iv_logic:
+            cp_iv_logic = self._get_release_config_for('any').get('cp_iv_logic', 'and')
+
+        release_results = {
+            'cp':               False,
+            'iv':               False,
+        }
+
+        min_cp = 0
+        min_iv = 0
+
+        if release_config.get('release_under_cp'):
+            min_cp = release_config['release_under_cp']
+            if cp < min_cp:
+                release_results['cp'] = True
+
+        if release_config.get('release_under_iv'):
+            min_iv = release_config['release_under_iv']
+            if iv < min_iv:
+                release_results['iv'] = True
+
+        if release_config.get('always_release'):
+            return True
+
+        logic_to_function = {
+            'or': lambda x, y: x or y,
+            'and': lambda x, y: x and y
+        }
+
+        print_yellow(
+            "[x] Release config for {}: CP {} {} IV {}".format(
+                pokemon_name,
+                min_cp,
+                cp_iv_logic,
+                min_iv
+            )
+        )
+
+        return logic_to_function[cp_iv_logic](*release_results.values())
+
+    def _get_release_config_for(self, pokemon):
+        release_config = self.config.release_config.get(pokemon)
+        if not release_config:
+            release_config = self.config.release_config['any']
+        return release_config

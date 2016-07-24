@@ -1,0 +1,12 @@
+{
+	"any": {
+		"release_under_cp": 400,
+		"release_under_iv": 0.0,
+		"cp_iv_logic": "or"
+	},
+	"My Pokemon": {
+		"release_under_cp": 0,
+		"release_under_iv": 0,
+		"cp_iv_logic": "or"
+	}
+}
