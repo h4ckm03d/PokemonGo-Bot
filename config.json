@@ -1,7 +1,5 @@
 {
     "gmapkey": "AIzaSyAwlCwtetUjkqr9K4tzduGPUAfO0ubMAeA",
-    "max_steps": 50,
-    "mode": "all",
     "walk": 4.16,
     "debug": false,
     "test": false,
