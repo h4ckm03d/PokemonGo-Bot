@@ -3,6 +3,5 @@
     "walk": 4.16,
     "debug": false,
     "test": false,
-    "distance_unit": "km",
-    "item_filter": ["101","102","103","201"]
+    "distance_unit": "km"
 }
