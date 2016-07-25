@@ -147,10 +147,10 @@ def init_config():
                         default=False)
 
     config = parser.parse_args()
-    if not config.username and 'username' not in load:
-        config.username = raw_input("Username: ")
-    if not config.password and 'password' not in load:
-        config.password = getpass("Password: ")
+    # if not config.username and 'username' not in load:
+    #     config.username = raw_input("Username: ")
+    # if not config.password and 'password' not in load:
+    #     config.password = getpass("Password: ")
 
     # Passed in arguments should trump
     for key in config.__dict__:
