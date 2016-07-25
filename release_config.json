@@ -2,7 +2,7 @@
 	"any": {
 		"release_under_cp": 400,
 		"release_under_iv": 0.8,
-		"cp_iv_logic": "or"
+		"cp_iv_logic": "and"
 	},
 	"My Pokemon": {
 		"release_under_cp": 0,
